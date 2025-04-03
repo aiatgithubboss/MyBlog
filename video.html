@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Видео</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(45deg, #ff6b6b, #556270);
+            color: white;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        header, footer {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+        }
+        nav ul li {
+            display: inline;
+            margin: 0 15px;
+        }
+        nav a {
+            color: #ffcc00;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        nav a:hover {
+            color: #ffffff;
+        }
+        main {
+            padding: 50px;
+            flex: 1;
+        }
+        footer {
+            margin-top: auto;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Видео</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Главная</a></li>
+                <li><a href="text.html">Тексты</a></li>
+                <li><a href="photo.html">Фото</a></li>
+                <li><a href="video.html">Видео</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+       <h2>Моя видеоколлекция</h2>
+        <div class="video-gallery">
+                <div class="video-container">
+                <iframe src="https://youtube.com/embed/Uc3xONseoTU?t=1s" frameborder="0" allowfullscreen></iframe> 
+                Ваш браузер не поддерживает видео.
+            </video>
+            <div class="video-container">
+                <iframe src="https://youtube.com/embed/YgBgUHRxf00" frameborder="0" allowfullscreen></iframe>
+                Ваш браузер не поддерживает видео.
+            </video>
+            <div class="video-container">
+                <iframe src="https://youtube.com/embed/xQIptIFvnwI" frameborder="0" allowfullscreen></iframe>     
+                 Ваш браузер не поддерживает видео.
+             </video>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2025 Мой блог</p>
+    </footer>
+</body>
+</html>

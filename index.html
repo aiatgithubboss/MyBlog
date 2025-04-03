@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Главная</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(45deg, #ff6b6b, #556270);
+            color: white;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        header, footer {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+        }
+    
+          .avatar-container {
+            display: flex;
+            justify-content: center; /* Центрируем аватар */
+            align-items: center;
+        }
+        .avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 2px solid #00ffcc; /* Неон */
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .avatar:hover {
+            transform: scale(1.1);
+        }
+    
+    
+        nav ul {
+            list-style: none;
+            padding: 0;
+        }
+        nav ul li {
+            display: inline;
+            margin: 0 15px;
+        }
+        nav a {
+            color: #ffcc00;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        nav a:hover {
+            color: #ffffff;
+        }
+        main {
+            padding: 50px;
+            flex: 1;
+        }
+        footer {
+            margin-top: auto;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="avatar-container">
+            <img id="avatar" class="avatar" src="https://i.pravatar.cc/150" alt="Аватар">
+        </div>
+        <h1>Мой блог</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Главная</a></li>
+                <li><a href="text.html">Тексты</a></li>
+                <li><a href="photo.html">Фото</a></li>
+                <li><a href="video.html">Видео</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h2>Добро пожаловать в мой блог!</h2>
+        <p>Здесь я публикую интересные материалы: тексты, фото и видео.</p>
+    </main>
+    <footer>
+        <p>&copy; 2025 Мой блог</p>
+    </footer>
+</body>
+</html>
+
+<script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const avatar = document.getElementById("avatar");
+
+            // Загружаем сохраненный аватар из localStorage
+            const savedAvatar = localStorage.getItem("avatarUrl");
+            if (savedAvatar) {
+                avatar.src = savedAvatar;
+            }
+
+            avatar.addEventListener("click", function () {
+                const newUrl = prompt("Введите URL аватара:");
+                if (newUrl) {
+                    avatar.src = newUrl;
+                    localStorage.setItem("avatarUrl", newUrl);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
