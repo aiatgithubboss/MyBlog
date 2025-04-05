@@ -21,6 +21,18 @@
             background: rgba(0, 0, 0, 0.7);
             padding: 20px;
         }
+    
+        .avatar-container {
+            display: flex;
+            justify-content: center; /* Центрируем аватар */
+            align-items: center;
+        }
+        .avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 2px solid #00ffcc; /* Неон */
+        }
         nav ul {
             list-style: none;
             padding: 0;
@@ -82,6 +94,10 @@
 </head>
 <body>
     <header>
+        <div class="avatar-container">
+            <!-- Статичный аватар (только вы меняете его в коде) -->
+            <img id="avatar" class="avatar" src="https://i.postimg.cc/kgWZkJzy/IMG-20250329-173753-561.webp" alt="Аватар">
+        </div>
         <h1>Фото</h1>
         <nav>
             <ul>
@@ -97,10 +113,10 @@
         <div class="photo-gallery">
             <div class="photo-item">
                 <img src="https://i.postimg.cc/Y0BBsRd6/Photoroom-20250403-233325.png" alt="Фото 1">
-                <div class="photo-description">Мой братик</div>
+                <div class="photo-description">Мой братик🤙🫂</div>
             </div>
             <div class="photo-item">
-                <img src="photo2.jpg" alt="Фото 2">
+                <img src="https://i.postimg" alt="Фото 2">
                 <div class="photo-description">Описание фото 2</div>
             </div>
             <div class="photo-item">
