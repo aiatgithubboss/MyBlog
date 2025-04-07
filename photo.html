@@ -78,6 +78,63 @@
             transform: scale(1.05);
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
         }
+    
+        }
+        header, footer {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+        }
+        nav ul li {
+            display: inline;
+            margin: 0 15px;
+        }
+        nav a {
+            color: #ffcc00;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        nav a:hover {
+            color: #ffffff;
+        }
+        main {
+            flex: 1;
+            padding: 20px;
+        }
+        .password-area {
+            margin-top: 50px;
+        }
+        input[type="password"] {
+            padding: 10px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+        }
+        button {
+            padding: 11px 25px;
+            margin-left: 10px;
+            font-size: 14px;
+            background-color: #00ffcc;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            color: black;
+            font-weight: bold;
+        }
+        button:hover {
+            background-color: #00ddaa;
+        }
+        img {
+            max-width: 100%;
+            margin: 20px 0;
+            border: 3px solid white;
+            border-radius: 10px;
+        }
+    
+    
         .photo-description {
             padding: 10px;
             background: rgba(0, 0, 0, 0.7);
@@ -102,14 +159,30 @@
         <nav>
             <ul>
                 <li><a href="index.html">Главная</a></li>
-                <li><a href="text.html">Тексты</a></li>
+                <li><a href="text.html">Новости</a></li>
                 <li><a href="photo.html">Фото</a></li>
                 <li><a href="video.html">Видео</a></li>
             </ul>
         </nav>
     </header>
     <main>
+        
+        <main id="main-content" style="display: none;">
+        <h2>Мои фотографии</h2>
+        <img src="https://i.postimg.cc/kgWZkJzy/IMG-20250329-173753-561.webp" alt="Фото 1">
+        <img src="https://i.postimg.cc/YCVJ0qYk/photo2.jpg" alt="Фото 2">
+        <br>
+        <button onclick="logout()">Выйти</button>
+    </main>
+
+    <div class="password-area" id="password-area">
+        <h2>Введите пароль для семейной фотографии</h2>
+        <input type="password" id="password" placeholder="Пароль">
+        <button onclick="checkPassword()">Войти</button>
+    </div>
+        
         <h2>Моя фотогалерея</h2>
+        
         <div class="photo-gallery">
             <div class="photo-item">
                 <img src="https://i.postimg.cc/Y0BBsRd6/Photoroom-20250403-233325.png" alt="Фото 1">
@@ -131,6 +204,26 @@
         </div>
     </main>
     <footer>
+        
+        
+<script>
+    const correctPassword = "secret123";
+
+    function checkPassword() {
+        const input = document.getElementById("password").value;
+        if (input === correctPassword) {
+            localStorage.setItem("authenticated", "true");
+            window.location.href = "gallery.html"; // переход на отдельную страницу
+        } else {
+            alert("Неверный пароль");
+        }
+    }
+
+ 
+</script>
+    
+
+    
         <p>&copy; 2025 Мой блог</p>
     </footer>
 </body>
