@@ -46,6 +46,35 @@
             font-weight: bold;
             transition: 0.3s;
         }
+    
+        .content-box {
+    background-color: #f7e7ce;
+    color: #2f4f4f;
+    padding: 30px;
+    margin: 40px auto;
+    max-width: 700px;
+    border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    text-align: left;
+}
+
+.content-box h2 {
+    color: #800020;
+}
+
+.content-box blockquote {
+    font-style: italic;
+    color: #555;
+    margin: 20px 0;
+    padding-left: 15px;
+    border-left: 4px solid #a2d5f2;
+}
+
+.content-image {
+    width: 100%;
+    border-radius: 12px;
+    margin-top: 20px;
+}    
         footer {
             margin-top: auto;
         }
@@ -66,8 +95,17 @@
             </ul>
         </nav>
     </header>
-        <h2>Добро пожаловать в мой блог!</h2>
-        <p>Здесь я публикую интересные материалы: новости, фото и видео.</p>
+        <div class="content-box">
+            
+    <h2>Добро пожаловать в мой блог!</h2>
+            
+    <p>Здесь я публикую интересные материалы.</p>
+
+    <img src="https://i.postimg.cc/xj7CsVML/Photoroom-20240509-044508.png" alt="Момент жизни" class="content-image">
+            
+    <blockquote>“Писать — значит пережить мгновение дважды.”</blockquote>
+                 
+  </div>
     </main>
     <footer>
         <p>&copy; 2025 Мой блог</p>
