@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ERP PRO MAX FIX PDF</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+<style>
+body{
+    margin:0;
+    font-family:Arial;
+    background:#f5f7fb;
+    color:#1f2937;
+}
+
+.container{
+    max-width:900px;
+    margin:auto;
+    padding:20px;
+}
+
+h2{
+    text-align:center;
+    color:#2563eb;
+}
+
+.card{
+    background:#fff;
+    border-radius:14px;
+    border:1px solid #e5e7eb;
+    padding:14px;
+    margin-bottom:12px;
+}
+
+input, select{
+    width:100%;
+    padding:10px;
+    margin:6px 0;
+    border-radius:10px;
+    border:1px solid #d1d5db;
+}
+
+button{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    background:#2563eb;
+    color:white;
+    font-weight:700;
+    margin-top:6px;
+}
+
+.item{
+    border:1px solid #e5e7eb;
+    padding:10px;
+    border-radius:10px;
+    margin-bottom:10px;
+}
+
+.report{
+    background:#fff;
+    padding:20px;
+    border-radius:14px;
+    border:1px solid #e5e7eb;
+
+    font-size:14px;
+    line-height:1.6;
+
+    white-space:normal;
+    overflow:visible;
+    word-break:break-word;
+}
+
+/* 🔥 ПРАВИЛЬНЫЕ ПЕРЕНОСЫ СТРАНИЦ */
+.page-break{
+    page-break-before: always;
+}
+
+.line{
+    border-top:1px solid #ddd;
+    margin:10px 0;
+}
+
+/* PDF FIX */
+@media print {
+    .report{
+        page-break-inside: auto;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>📊 AIAT TENDER CALC</h2>
+
+<div class="card">
+
+<input id="tn" placeholder="Номер тендера">
+<input id="plan" type="number" placeholder="Планируемая сумма">
+
+<div id="items"></div>
+
+<button onclick="addItem()">➕ Добавить товар</button>
+
+<hr>
+
+<input id="nds" type="number" placeholder="НДС %">
+<input id="sf" type="number" placeholder="СФ">
+<input id="bank" type="number" placeholder="Банк">
+<input id="other" type="number" placeholder="Прочие">
+
+<input id="curator" type="number" placeholder="Куратор %">
+<input id="cash" type="number" placeholder="Касса %">
+<input id="investor" type="number" placeholder="Инвестор %">
+
+<button onclick="calc()">📊 Рассчитать</button>
+<button onclick="downloadPDF()">📄 PDF</button>
+<button onclick="sendWhatsApp()">📤 WhatsApp</button>
+
+</div>
+
+<div class="card">
+<div id="status"></div>
+</div>
+
+<div class="report" id="report">⏳ Нет данных...</div>
+
+</div>
+
+<script>
+
+let i = 0;
+let lastReport = "";
+
+function addItem(){
+    i++;
+    let div = document.createElement("div");
+    div.className = "item";
+
+    div.innerHTML = `
+    <input id="name${i}" placeholder="Наименование">
+    <input id="qty${i}" type="number" placeholder="Количество">
+
+    <select id="unit${i}">
+        <option>шт</option>
+        <option>метр</option>
+        <option>кг</option>
+        <option>литр</option>
+        <option>м²</option>
+        <option>мешок</option>
+        <option>пачка</option>
+        <option>коробка</option>
+        <option>упаковка</option>
+    </select>
+
+    <input id="buy${i}" type="number" placeholder="Закупка">
+    <input id="sell${i}" type="number" placeholder="Продажа (0=авто)">
+    <input id="markup${i}" type="number" placeholder="Наценка %">
+    `;
+
+    document.getElementById("items").appendChild(div);
+}
+
+function calc(){
+
+let round = (n) => Math.round(n);
+
+let tn = document.getElementById("tn").value;
+let plan = +document.getElementById("plan").value || 0;
+
+let nds = +document.getElementById("nds").value || 0;
+let sf = +document.getElementById("sf").value || 0;
+let bank = +document.getElementById("bank").value || 0;
+let other = +document.getElementById("other").value || 0;
+
+let curator = +document.getElementById("curator").value || 0;
+let cash = +document.getElementById("cash").value || 0;
+let investor = +document.getElementById("investor").value || 0;
+
+let totalCosts = 0;
+let totalSell = 0;
+
+let report = `
+📊 AIAT TENDER CALC ОТЧЁТ
+<div class="line"></div>
+
+<b>Тендер:</b> ${tn}<br>
+<b>План. сумма:</b> ${plan}<br>
+<b>Дата:</b> ${new Date().toLocaleString()}
+
+<div class="line"></div>
+<h3>📦 ТОВАРЫ</h3>
+`;
+
+for(let x=1;x<=i;x++){
+
+let nameEl = document.getElementById("name"+x);
+if(!nameEl) continue;
+
+let name = nameEl.value;
+let qty = +document.getElementById("qty"+x).value || 0;
+let unit = document.getElementById("unit"+x).value;
+let buy = +document.getElementById("buy"+x).value || 0;
+let sell = +document.getElementById("sell"+x).value || 0;
+let markup = +document.getElementById("markup"+x).value || 0;
+
+let base = round(buy * qty);
+let ndsSum = round(base * nds / 100);
+let cost = round(base + ndsSum);
+
+if(sell === 0){
+    sell = round(cost + cost * markup / 100);
+}
+
+let profit = round(sell - cost);
+let margin = cost ? (profit / cost) * 100 : 0;
+
+totalCosts += cost;
+totalSell += sell;
+
+report += `
+<div class="line"></div>
+
+<b>${name}</b><br>
+${qty} ${unit}<br>
+Закупка: ${base}<br>
+НДС: ${ndsSum}<br>
+Себестоимость: ${cost}<br>
+Продажа: ${sell}<br>
+Прибыль: ${profit}<br>
+Маржа: ${margin.toFixed(2)}%<br>
+`;
+}
+
+let fixed = sf + bank + other;
+let gross = totalSell - totalCosts;
+let net = gross - fixed;
+
+let curatorSum = net * curator / 100;
+let cashSum = net * cash / 100;
+let investorSum = net * investor / 100;
+
+let finalProfit = net - curatorSum - cashSum - investorSum;
+
+let diff = totalSell - plan;
+let percent = plan ? (totalSell / plan) * 100 : 0;
+
+report += `
+<div class="page-break"></div>
+
+<h3>📊 РАСХОДЫ</h3>
+СФ: ${sf}<br>
+Банк: ${bank}<br>
+Прочие: ${other}<br>
+Итого: ${fixed}<br>
+
+<div class="line"></div>
+
+<h3>📊 ПЛАН / ФАКТ</h3>
+План: ${plan}<br>
+Факт: ${totalSell}<br>
+Упали: ${diff}<br>
+Выполнение: ${percent.toFixed(2)}%<br>
+
+<div class="line"></div>
+
+<h3>💰 РАСПРЕДЕЛЕНИЕ</h3>
+Куратор: ${round(curatorSum)}<br>
+Касса: ${round(cashSum)}<br>
+Инвестор: ${round(investorSum)}<br>
+
+<div class="line"></div>
+
+<h2>💎 ЧИСТАЯ ПРИБЫЛЬ: ${round(finalProfit)}</h2>
+
+<b>СТАТУС:</b> ${finalProfit < 0 ? "❌ УБЫТОК" : "🟢 ПРИБЫЛЬ"}
+`;
+
+document.getElementById("report").innerHTML = report;
+lastReport = document.getElementById("report").innerText;
+
+document.getElementById("status").innerHTML =
+finalProfit < 0
+? `<h3 style="color:red">❌ УБЫТОК</h3>`
+: `<h3 style="color:green">🟢 ПРИБЫЛЬ</h3>`;
+}
+
+/* PDF FIX 100% */
+function downloadPDF(){
+
+let element = document.getElementById("report");
+
+html2pdf().set({
+    margin:10,
+    filename:'ERP_FULL_REPORT.pdf',
+    image:{ type:'jpeg', quality:0.98 },
+    html2canvas:{
+        scale:2,
+        useCORS:true,
+        scrollY:0,
+        windowWidth:document.body.scrollWidth
+    },
+    jsPDF:{
+        unit:'mm',
+        format:'a4',
+        orientation:'portrait'
+    },
+    pagebreak:{
+        mode:['css','legacy','avoid-all']
+    }
+}).from(element).save();
+}
+
+/* WhatsApp */
+function sendWhatsApp(){
+if(!lastReport){
+    alert("Сначала нажми РАССЧИТАТЬ");
+    return;
+}
+window.open("https://wa.me/?text=" + encodeURIComponent(lastReport), "_blank");
+}
+
+</script>
+
+</body>
+</html>
