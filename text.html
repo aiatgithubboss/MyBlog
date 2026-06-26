@@ -116,6 +116,44 @@
 
     <main>
         <div class="content-box">
+            <main class="content-box">
+<h2>Новости</h2>
+<div id="news"></div>
+</main>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
+<script>
+const firebaseConfig = {
+    apiKey: "PASTE_HERE",
+    authDomain: "PASTE_HERE",
+    projectId: "PASTE_HERE",
+    storageBucket: "PASTE_HERE",
+    messagingSenderId: "PASTE_HERE",
+    appId: "PASTE_HERE"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+db.collection("posts").orderBy("time","desc")
+.onSnapshot(snapshot => {
+    let news = document.getElementById("news");
+    news.innerHTML = "";
+
+    snapshot.forEach(doc => {
+        let p = doc.data();
+
+        news.innerHTML += `
+        <div style="background:white;color:black;padding:10px;margin:10px;border-radius:10px;">
+            <h3>${p.title}</h3>
+            <p>${p.text}</p>
+        </div>
+        `;
+    });
+});
+</script>
     <h2>Садыр Жапаров Айт намазды Бишкектеги Имам Сарахси атындагы мечитте окуду.</h2>
 
 
